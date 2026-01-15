@@ -1,0 +1,13 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "dll",
+      "exe": "",
+      "project": "RocketBind_BakkesMod\\CMakeLists.txt",
+      "projectTarget": "RocketBind.dll (C:\\Users\\mmkk2\\Desktop\\VS Workspaces\\RocketBind\\RocketBind_BakkesMod\\Debug\\RocketBind.dll)",
+      "name": "RocketBind.dll (C:\\Users\\mmkk2\\Desktop\\VS Workspaces\\RocketBind\\RocketBind_BakkesMod\\Debug\\RocketBind.dll)"
+    }
+  ]
+}

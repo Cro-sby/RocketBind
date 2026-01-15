@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\RocketBind_BakkesMod\RocketBind.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\RocketBind_BakkesMod\RocketBindGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\imgui-master\imgui-master\imgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\imgui-master\imgui-master\imgui_draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\imgui-master\imgui-master\imgui_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\imgui-master\imgui-master\imgui_widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\RocketBind_BakkesMod\RocketBind.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\mmkk2\Desktop\VS Workspaces\RocketBind\RocketBind_BakkesMod\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D028DBDE-9AE3-3876-B574-7448204F7DEB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1995F635-3529-3FBF-A860-17AC76A1AA27}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

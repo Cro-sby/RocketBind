@@ -1,0 +1,20 @@
+{
+  "bindings": {
+    "XboxTypeS_A": "Boost",
+    "XboxTypeS_B": "Jump",
+    "XboxTypeS_X": "AirRollLeft",
+    "XboxTypeS_Y": "ToggleBallCam",
+    "XboxTypeS_LeftShoulder": "RearCamera",
+    "XboxTypeS_RightShoulder": "AirRollRight",
+    "XboxTypeS_LeftTrigger": "Reverse",
+    "XboxTypeS_RightTrigger": "Throttle",
+    "XboxTypeS_LeftThumbStick": "PushToTalk",
+    "XboxTypeS_RightThumbStick": "RearCamera",
+    "XboxTypeS_Start": "ShowMenu",
+    "XboxTypeS_Back": "ShowScores",
+    "XboxTypeS_DPad_Up": "QuickChat1",
+    "XboxTypeS_DPad_Down": "QuickChat2",
+    "XboxTypeS_DPad_Left": "QuickChat3",
+    "XboxTypeS_DPad_Right": "QuickChat4"
+  }
+}

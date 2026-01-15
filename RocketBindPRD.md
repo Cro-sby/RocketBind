@@ -1,67 +1,84 @@
-Here is a complete, technically detailed **Product Requirement Document (PRD)** designed specifically to be pasted into **Claude**.
+Here is the **Updated PRD**. I have stripped out all the logic regarding Sensitivity, Deadzone, and Camera settings.
 
-It covers the tech stack, the file logic, the validation rules (so users don’t break their controls), and the "Force Restart" automation.
+This version strictly handles **Button-to-Action mappings** (Keybindings) only.
 
 ***
 
-## Project Title: RocketBind (RL Preset Manager)
+## **Project Title:** RocketBind (BakkesMod Plugin) - Lite
 
 ### **1. High-Level Overview**
-**RocketBind** is a native Windows desktop application that allows *Rocket League* players to create, save, and instantly swap between multiple controller/keyboard configurations (presets). Since the game does not support multiple control profiles natively, this app acts as a manager that overrides the game's configuration files and forces a game restart to apply changes immediately.
+**RocketBind** is a BakkesMod plugin for *Rocket League* that allows users to save and load **Keybinding configurations** instantly.
+It strictly manages control schemes (e.g., swapping between "Freestyle" and "Competitive" button layouts) without altering sensitivities, camera settings, or deadzones.
 
-**Target Platform:** Windows 10/11 (Note: macOS support is unnecessary as Rocket League is no longer supported on macOS).
+### **2. Technical Stack**
+*   **Language:** C++ (C++17 standard).
+*   **SDK:** BakkesMod SDK.
+*   **External Library:** `nlohmann/json` (single header) for parsing/saving data.
+*   **UI Framework:** ImGui (Native BakkesMod wrapper).
 
-### **2. Tech Stack**
-*   **Language:** Python (all logic, file handling, and UI will be implemented in Python).
-*   **GUI Framework:** CustomTkinter (for a modern, dark-mode aesthetic similar to the Rocket League menu).
-*   **File Handling:** Standard Python I/O for reading/writing `.ini` files.
+### **3. Core Logic Requirements**
 
-### **3. Core MVP Features**
+#### **A. The "Save Bindings" Logic (Pull)**
+The plugin must iterate through a hardcoded list of supported Controller Inputs.
+*   **Input List:** `XboxTypeS_A`, `XboxTypeS_B`, `XboxTypeS_X`, `XboxTypeS_Y`, `XboxTypeS_LeftShoulder`, `XboxTypeS_RightShoulder`, `XboxTypeS_LeftTrigger`, `XboxTypeS_RightTrigger`, `XboxTypeS_LeftThumbStick`, `XboxTypeS_RightThumbStick`, `XboxTypeS_Start`, `XboxTypeS_Back`, `XboxTypeS_DPad_Up`, `XboxTypeS_DPad_Down`, `XboxTypeS_DPad_Left`, `XboxTypeS_DPad_Right`.
+*   **Action:** For each key, call `cvarManager->getBindString(key)`.
+*   **Output:** Write this map to a JSON file at `bakkesmod/data/RocketBind/[PresetName].json`.
+*   **Constraint:** Do **NOT** save sensitivity or deadzone values.
 
-#### **A. Preset Management (The "Dashboard")**
-*   **Create New Preset:** Start from scratch or duplicate an existing one.
-*   **Import Current Settings:** A button that reads the user's currently active `TAInput.ini` file and saves it as a new preset in the app. *Technical Note: The `.ini` file is plain text, not encrypted, so parsing this is fully possible.*
-*   **Edit Preset:** A visual interface to map actions (Jump, Boost, Air Roll) to buttons.
-*   **Delete/Rename Presets.**
+#### **B. The "Load Bindings" Logic (Push)**
+The plugin must read a target `.json` file and apply the bindings immediately.
+*   **Action:** Parse the JSON.
+*   **Execution:** For every key/value pair in the JSON object, execute:
+    `cvarManager->executeCommand("SetBind [Key] [Value]");`
+*   **Toast:** Trigger a BakkesMod notification: `gameWrapper->Toast("RocketBind", "Keybindings Loaded!", ...)`
 
-#### **B. The "Force Apply" System**
-The app must execute the following "Macro" when the user clicks **APPLY PRESET**:
-1.  **Check Process:** Check if `RocketLeague.exe` is running.
-2.  **Kill Process:** If running, execute `taskkill /f /im RocketLeague.exe` to close it immediately.
-3.  **File Swap:** Overwrite the contents of `%USERPROFILE%\Documents\My Games\Rocket League\TAGame\Config\TAInput.ini` with the data from the selected preset.
-4.  **Auto-Relaunch:** Detect if the user uses Steam or Epic and launch the appropriate URI:
-    *   **Steam:** `start steam://rungameid/252950`
-    *   **Epic:** `start com.epicgames.launcher://apps/Sugar?action=launch&silent=true`
+#### **C. Data Structure (JSON Schema)**
+The generated files must follow this simplified format:
+```json
+{
+  "bindings": {
+    "XboxTypeS_A": "Jump",
+    "XboxTypeS_B": "Boost",
+    "XboxTypeS_X": "AirRollLeft",
+    "XboxTypeS_RightTrigger": "Throttle"
+  }
+}
+```
 
-#### **C. Input Validation (The "Smart" Logic)**
-To mimic Rocket League’s native menu and prevent broken controls, the app must include:
-*   **Conflict Detection:** If a user binds "Jump" to `A` and then tries to bind "Boost" to `A`, the app should alert the user or unbind the previous action (optional toggle).
-*   **Essential Check:** The user cannot save a preset unless critical actions (Throttle, Steer, Jump, Boost, Camera Swivel) are bound.
-*   **Device Handling:** UI should distinguish between "Gamepad" (Xbox/PS bindings) and "PC" (Keyboard/Mouse bindings).
+### **4. UI/UX Requirements (ImGui)**
+The UI should be rendered via `RocketBind::Render()` inside the F2 Menu.
+1.  **Preset Selector:** A `ImGui::Combo` (Dropdown) listing all `.json` files found in the data directory.
+2.  **Action Buttons:**
+    *   **"Load Keybindings":** triggers the Load logic.
+    *   **"Refresh List":** Re-scans the directory.
+3.  **Creation Section:**
+    *   **Input Text:** `ImGui::InputText` for naming a new preset.
+    *   **"Save Current Keybindings":** Button to trigger the Save logic.
 
-### **4. UI/UX Requirements**
-*   **Visual Style:** Dark Blue/Grey background with Orange accents (Hex: `#0078F2` for Blue, `#FF8C00` for Orange).
-*   **Layout:**
-    *   **Left Sidebar:** List of Presets (e.g., "Freestyle", "Comp", "KBM").
-    *   **Main Area:** Scrollable list of actions (Jump, Boost, Handbrake) with dropdown menus for the assigned key/button.
-    *   **Bottom Bar:** Large "APPLY & RESTART" button (Red warning color if game is running).
+### **5. File Structure & Implementation Plan**
 
-### **5. Technical Specifications for the AI**
+Please generate the following files:
 
-**File Paths:**
-*   **Config Location:** `os.path.expanduser('~') + r"\Documents\My Games\Rocket League\TAGame\Config\TAInput.ini"`
-*   **Backup:** The app must create a backup of the original `TAInput.ini` on first launch (`TAInput.ini.bak`) to prevent data loss.
+1.  **`RocketBind.h`**:
+    *   Inherit from `BakkesMod::Plugin::BakkesModPlugin` and `BakkesMod::Plugin::PluginWindow`.
+    *   Define the helper functions `SavePreset(std::string name)` and `LoadPreset(std::string name)`.
+    *   Declare the `std::vector<std::string>` that holds the controller key names.
 
-**Parsing Logic (The tricky part):**
-The `TAInput.ini` file uses Unreal Engine 3 syntax. The app needs to parse lines looking like:
-`GamepadBindings=( Action="Jump", Key="XboxTypeS_A" )`
-*   **Read Mode:** Regex parsing to extract the `Action` and the `Key`.
-*   **Write Mode:** Reconstruct the file string preserving the header/footer structure of the original file, only modifying the `GamepadBindings` and `PCBindings` lines.
+2.  **`RocketBind.cpp`**:
+    *   Implementation of `onLoad` (ensure `data/RocketBind` folder exists).
+    *   Implementation of the Save/Load logic using `nlohmann/json`.
+    *   **Logic:** Iterate through the vector of keys. For Save: `getBindString`. For Load: `executeCommand("SetBind...")`.
 
-**Device Detection:**
-*   Steam Version check: Registry lookup or checking if `steam_api64.dll` is loaded in the process (or just ask the user once on setup).
+3.  **`RocketBindGUI.cpp`**:
+    *   Implementation of `Render()`.
+    *   Logic to scan the directory `bakkesmod/data/RocketBind/` using `std::filesystem` to populate the dropdown.
 
-### **6. Edge Cases to Handle**
-1.  **Read-Only Files:** If the user’s `TAInput.ini` is set to "Read Only" (common optimization in RL community), the app must remove that attribute before writing, then re-apply it if desired.
-2.  **Cloud Save Conflict:** Sometimes Steam Cloud attempts to restore the old config. The app should advise the user to disable Steam Cloud for Rocket League if settings revert automatically.
-3.  **Game Updates:** If Rocket League adds a new binding (e.g., a new rumble powerup), the app should not crash. It should treat unknown lines as "Pass-through" (keep them in the file, don't delete them).
+### **6. Special Instructions for the AI**
+*   **Error Handling:** Ensure the code checks if the directory exists before writing.
+*   **Library:** Assume `json.hpp` is present in the include path.
+*   **Scope:** Strictly limit logic to `SetBind` commands. Do not touch `GamepadSteeringSensitivity` or `Camera` CVars.
+
+***
+
+**How to use this:**
+Copy/paste this into **Claude Sonnet**. It now knows to ignore sensitivities and focus only on the buttons.

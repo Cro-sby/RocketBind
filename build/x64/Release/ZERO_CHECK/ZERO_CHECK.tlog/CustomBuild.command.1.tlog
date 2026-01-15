@@ -1,0 +1,10 @@
+^C:\USERS\MMKK2\DESKTOP\VS WORKSPACES\ROCKETBIND\BUILD\CMAKEFILES\9548FDACC19449307A5DAEB34F621F5D\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/mmkk2/Desktop/VS Workspaces/RocketBind/RocketBind_BakkesMod" "-BC:/Users/mmkk2/Desktop/VS Workspaces/RocketBind/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/mmkk2/Desktop/VS Workspaces/RocketBind/build/RocketBind.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
