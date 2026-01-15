@@ -1,0 +1,47 @@
+# Global ignores for RocketBind workspace
+
+# Build and binary output
+/build/
+/RocketBind_BakkesMod/Debug/
+/RocketBind_BakkesMod/Release/
+/RocketBind_BakkesMod/*.dll
+/RocketBind_BakkesMod/*.exp
+/RocketBind_BakkesMod/*.lib
+/RocketBind_BakkesMod/*.pdb
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+*.slnx
+*.vcxproj*
+*.dir/
+
+# User/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python (for DesktopApp)
+RocketBind_DesktopApp/__pycache__/
+RocketBind_DesktopApp/.venv/
+RocketBind_DesktopApp/venv/
+RocketBind_DesktopApp/ENV/
+RocketBind_DesktopApp/env/
+RocketBind_DesktopApp/*.pyc
+RocketBind_DesktopApp/*.pyo
+RocketBind_DesktopApp/*.egg-info/
+
+# ImGui build artifacts
+imgui-master/imgui-master/examples/example_android_opengl3/android/build/
+
+# Misc
+*.log
+*.tmp
+MENU_FIX_EXPLANATION.md
