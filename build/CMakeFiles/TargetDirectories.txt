@@ -1,3 +1,0 @@
-C:/Users/mmkk2/Desktop/VS Workspaces/RocketBind/build/CMakeFiles/RocketBind.dir
-C:/Users/mmkk2/Desktop/VS Workspaces/RocketBind/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/mmkk2/Desktop/VS Workspaces/RocketBind/build/CMakeFiles/ZERO_CHECK.dir
